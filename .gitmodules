@@ -1,0 +1,3 @@
+[submodule "00_components/esp-idf-components"]
+	path = 00_components/esp-idf-components
+	url = https://github.com/100askTeam/esp-idf-components.git

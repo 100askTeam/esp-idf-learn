@@ -1,0 +1,13 @@
+.DS_Store
+.*.swp
+.*.swo
+*~
+
+.vscode
+*.bak
+
+.devcontainer
+build
+dependencies.lock
+sdkconfig
+sdkconfig.old

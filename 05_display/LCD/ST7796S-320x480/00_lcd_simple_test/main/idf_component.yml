@@ -1,0 +1,5 @@
+## IDF Component Manager Manifest File
+dependencies:
+  esp-idf-components:
+    version: "^1.0.0"
+    override_path: "../../../../../00_components/esp-idf-components"
