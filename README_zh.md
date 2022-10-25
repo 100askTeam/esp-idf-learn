@@ -10,11 +10,6 @@
 
 ### 需要帮助或者有疑问吗？加入论坛 [![https://forums.100ask.net/c/esp/49](https://badges.gitter.im/espressif/arduino-esp32.svg)](https://forums.100ask.net/c/esp/49)
 
-## 目录
-
-  - [开始学习](#开始学习)
-  - [学习文档](#学习文档)
-
 ### 开始学习
 
 此仓库为学习文档的配套示例源码，按照下面的命令获取仓库：
