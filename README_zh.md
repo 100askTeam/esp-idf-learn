@@ -21,6 +21,7 @@
 
 ```shell
 git clone https://github.com/100askTeam/esp-idf-100ask-learn.git
+cd esp-idf-100ask-learn
 git submodule update --init --recursive
 ```
 
