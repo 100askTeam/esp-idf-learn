@@ -6,7 +6,7 @@
   <a href="../README.md">English</a>  |  <b>中文</b></a>
 </p>
 
-# ESP32学习教程(百问网)
+# 百问网ESP32学习教程(ESP-IDF)
 
 ### 需要帮助或者有疑问吗？加入论坛 [![https://forums.100ask.net/c/esp/49](https://badges.gitter.im/espressif/arduino-esp32.svg)](https://forums.100ask.net/c/esp/49)
 
