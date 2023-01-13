@@ -2,6 +2,7 @@
 .*.swp
 .*.swo
 *~
+*.zip
 
 .vscode
 *.bak
