@@ -15,7 +15,7 @@
 #include "esp_log.h"
 
 /* lcd 100ask drivers specific */
-#include "tft_lcd_100ask_drivers.h"
+#include "tft_lcd_100ask_hal.h"
 
 /*********************
  *      DEFINES
@@ -32,34 +32,34 @@
 /**********************
  *  STATIC VARIABLES
  **********************/
-static const char *TAG = "main";
+static const char *TAG = "TFT_LCD_100ASK_SMILE_TEST";
 
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/
 void app_main(void)
 {
-    tft_lcd_100ask_drivers_init();
+    tft_lcd_100ask_hal_init();
 
     while (1) {
         ESP_LOGI(TAG, "Color white.");
-        tft_lcd_100ask_clear(TFT_LCD_COLOR_WHITE);
+        tft_lcd_100ask_hal_clear(TFT_LCD_100ASK_COLOR_WHITE);
         vTaskDelay(3000 / portTICK_PERIOD_MS);
 
         ESP_LOGI(TAG, "Color red.");
-        tft_lcd_100ask_clear(TFT_LCD_COLOR_RED);
+        tft_lcd_100ask_hal_clear(TFT_LCD_100ASK_COLOR_RED);
         vTaskDelay(3000 / portTICK_PERIOD_MS);
 
         ESP_LOGI(TAG, "Color green.");
-        tft_lcd_100ask_clear(TFT_LCD_COLOR_GREEN);
+        tft_lcd_100ask_hal_clear(TFT_LCD_100ASK_COLOR_GREEN);
         vTaskDelay(3000 / portTICK_PERIOD_MS);
 
         ESP_LOGI(TAG, "Color blue.");
-        tft_lcd_100ask_clear(TFT_LCD_COLOR_BLUE);
+        tft_lcd_100ask_hal_clear(TFT_LCD_100ASK_COLOR_BLUE);
         vTaskDelay(3000 / portTICK_PERIOD_MS);
 
         ESP_LOGI(TAG, "Color black.");
-        tft_lcd_100ask_clear(TFT_LCD_COLOR_BLACK);
+        tft_lcd_100ask_hal_clear(TFT_LCD_100ASK_COLOR_BLACK);
         vTaskDelay(3000 / portTICK_PERIOD_MS);
     }
 }

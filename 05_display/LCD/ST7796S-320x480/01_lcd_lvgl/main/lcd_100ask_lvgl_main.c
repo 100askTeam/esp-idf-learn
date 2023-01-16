@@ -26,7 +26,7 @@
 #include "lv_demos.h"
  
 /* lcd 100ask drivers specific */
-#include "tft_lcd_100ask_drivers.h"
+#include "tft_lcd_100ask_hal.h"
  
 /*********************
  *      DEFINES
@@ -74,7 +74,7 @@ static void guiTask(void *pvParameter)
     lv_init();
  
     /* Initialize display */
-    tft_lcd_100ask_drivers_init();
+    tft_lcd_100ask_hal_init();
 
     lv_color_t *buf1 = heap_caps_malloc(LV_DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
     if(buf1 == NULL)
@@ -98,17 +98,13 @@ static void guiTask(void *pvParameter)
  
     uint32_t size_in_px = LV_DISP_BUF_SIZE;
  
-#if defined CONFIG_LV_TFT_DISPLAY_CONTROLLER_IL3820 || defined CONFIG_LV_TFT_DISPLAY_CONTROLLER_JD79653A || defined CONFIG_LV_TFT_DISPLAY_CONTROLLER_UC8151D || defined CONFIG_LV_TFT_DISPLAY_CONTROLLER_SSD1306
-    size_in_px *= 8;
-#endif
- 
     /* Initialize the working buffer depending on the selected display.
      * NOTE: buf2 == NULL when using monochrome displays. */
     lv_disp_draw_buf_init(&disp_buf, buf1, buf2, size_in_px);
  
     lv_disp_drv_t disp_drv;
     lv_disp_drv_init(&disp_drv);
-    disp_drv.flush_cb = tft_lcd_100ask_display_flush;
+    disp_drv.flush_cb = tft_lcd_100ask_hal_display_flush;
  
     /* When using a monochrome display we need to register the callbacks:
      * - rounder_cb
