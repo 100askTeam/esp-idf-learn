@@ -15,7 +15,7 @@
 #include "esp_log.h"
 
 /* epd_100ask specific */
-#include "epd_100ask_drivers.h"
+#include "epd_100ask_hal.h"
 #include "epd_100ask_paint.h"
 
 /*********************
@@ -751,23 +751,23 @@ void app_main(void)
     uint16_t index = 0, y_offset = 0;
     uint8_t * g_epd_paint_image = (uint8_t *)malloc(((CONFIG_EPD_100ASK_PAINT_WIDTH % 8 == 0) ? (CONFIG_EPD_100ASK_PAINT_WIDTH / 8 ) : (CONFIG_EPD_100ASK_PAINT_WIDTH / 8 + 1)) * CONFIG_EPD_100ASK_PAINT_HEIGHT);
     
-    epd_100ask_init();
+    epd_100ask_hal_init();
     epd_100ask_paint_init(g_epd_paint_image, EPD_100ASK_COLOR_WHITE);
 
     while (1) {
 #if 1 //base test
         ESP_LOGI(TAG, "Base testing...");
 
-        epd_100ask_display_clear(EPD_100ASK_COLOR_WHITE);
+        epd_100ask_hal_display_clear(EPD_100ASK_COLOR_WHITE);
         //epd_100ask_display_clear(EPD_100ASK_COLOR_BLACK);
-        epd_100ask_display_image(gImage_full_screen_test, 240, 360);
-        epd_100ask_refresh(EPD_100ASK_LUT_GC);
+        epd_100ask_hal_display_image(gImage_full_screen_test, 240, 360);
+        epd_100ask_hal_refresh(EPD_100ASK_LUT_GC);
         
         /* 局刷图片 */
         y_offset = 0;
         for (index = 0; index <= 10; index++) {
-                epd_100ask_display_partial(0, y_offset, 32, 96, gImage_number_1);
-                epd_100ask_refresh(EPD_100ASK_LUT_DU);
+                // 使用局部刷新时，不需要调用 epd_100ask_hal_refresh 函数
+                epd_100ask_hal_display_partial(0, y_offset, 96, 32, gImage_number_1);
                 y_offset += 32;
                 vTaskDelay(200 / portTICK_PERIOD_MS);
         }
@@ -781,8 +781,8 @@ void app_main(void)
 
         // 通过画布清屏
         epd_100ask_paint_clear(EPD_100ASK_COLOR_WHITE);
-        epd_100ask_display_image(g_epd_paint_image, 240, 360);
-        epd_100ask_refresh(EPD_100ASK_LUT_GC);
+        epd_100ask_hal_display_image(g_epd_paint_image, 240, 360);
+        epd_100ask_hal_refresh(EPD_100ASK_LUT_GC);
         vTaskDelay(1000 / portTICK_PERIOD_MS);
         // 在画布上画点
         epd_100ask_paint_draw_point(10, 80, EPD_COLOR_BLACK, DOT_PIXEL_1X1, DOT_FILL_AROUND);
@@ -800,8 +800,8 @@ void app_main(void)
         // 在画布上写字(英文、中文、数字) TODO1
         
         // 显示画布的内容
-        epd_100ask_display_image(g_epd_paint_image, 240, 360);
-        epd_100ask_refresh(EPD_100ASK_LUT_GC);
+        epd_100ask_hal_display_image(g_epd_paint_image, 240, 360);
+        epd_100ask_hal_refresh(EPD_100ASK_LUT_GC);
 
         vTaskDelay(5000 / portTICK_PERIOD_MS);
         ESP_LOGI(TAG, "Paint test successfully!");
