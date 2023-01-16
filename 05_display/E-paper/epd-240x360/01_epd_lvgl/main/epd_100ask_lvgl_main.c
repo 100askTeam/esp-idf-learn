@@ -18,7 +18,7 @@
 
 #include "driver/gpio.h"
 
-#include "epd_100ask_drivers.h"
+#include "epd_100ask_hal.h"
 #include "epd_100ask_paint.h"
 
 /* lvgl specific */
@@ -64,12 +64,12 @@ void app_main(void)
     g_epd_paint_image = (uint8_t *)malloc(((CONFIG_EPD_100ASK_PAINT_WIDTH % 8 == 0) ? (CONFIG_EPD_100ASK_PAINT_WIDTH / 8 ) : (CONFIG_EPD_100ASK_PAINT_WIDTH / 8 + 1)) * CONFIG_EPD_100ASK_PAINT_HEIGHT);
     assert(g_epd_paint_image != NULL);
 
-    epd_100ask_init();
+    epd_100ask_hal_init();
     epd_100ask_paint_init(g_epd_paint_image, EPD_100ASK_COLOR_WHITE);
     // 通过画布清屏
     epd_100ask_paint_clear(EPD_100ASK_COLOR_WHITE);
-    epd_100ask_display_image(g_epd_paint_image, 240, 360);
-    epd_100ask_refresh(EPD_100ASK_LUT_GC);
+    epd_100ask_hal_display_image(g_epd_paint_image, 240, 360);
+    epd_100ask_hal_refresh(EPD_100ASK_LUT_GC);
     
     /* If you want to use a task to create the graphic, you NEED to create a Pinned task
     * Otherwise there can be problem such as memory corruption and so on.
@@ -107,30 +107,13 @@ static void guiTask(void *pvParameter)
     lv_disp_draw_buf_init(&disp_buf, buf1, NULL, size_in_px);
  
     lv_disp_drv_t disp_drv;
-    lv_disp_drv_init(&disp_drv); 
-    /* When using a monochrome display we need to register the callbacks:
-     * - rounder_cb
-     * - set_px_cb */
-#ifdef CONFIG_LV_TFT_DISPLAY_MONOCHROME
-    disp_drv.rounder_cb = disp_driver_rounder;
-    disp_drv.set_px_cb = disp_driver_set_px;
-#endif
- 
+    lv_disp_drv_init(&disp_drv);  
     disp_drv.draw_buf = &disp_buf;
     disp_drv.hor_res = CONFIG_EPD_100ASK_PAINT_WIDTH;
     disp_drv.ver_res = CONFIG_EPD_100ASK_PAINT_HEIGHT;
     disp_drv.full_refresh = 1;
     disp_drv.flush_cb = epd_disp_driver_flush;
     lv_disp_drv_register(&disp_drv);
- 
-    /* Register an input device when enabled on the menuconfig */
-#if CONFIG_LV_TOUCH_CONTROLLER != TOUCH_CONTROLLER_NONE
-    lv_indev_drv_t indev_drv;
-    lv_indev_drv_init(&indev_drv);
-    indev_drv.read_cb = touch_driver_read;
-    indev_drv.type = LV_INDEV_TYPE_POINTER;
-    lv_indev_drv_register(&indev_drv);
-#endif
 
 #if LV_USE_THEME_MONO
     lv_disp_t * disp = lv_disp_get_default();
@@ -204,10 +187,15 @@ static void epd_disp_driver_flush( lv_disp_drv_t *disp, const lv_area_t *area, l
         }
     }
 
-    epd_100ask_display_image(g_epd_paint_image, 240, 360);
-    epd_100ask_refresh(EPD_100ASK_LUT_GC);
+    if (lv_disp_flush_is_last(disp))
+    {
+        epd_100ask_hal_display_image(g_epd_paint_image, 240, 360);
+        epd_100ask_hal_refresh(EPD_100ASK_LUT_GC);
 
-    lv_disp_flush_ready( disp );
+        lv_disp_flush_ready( disp );
+    }
+
+    
 }
 
 
