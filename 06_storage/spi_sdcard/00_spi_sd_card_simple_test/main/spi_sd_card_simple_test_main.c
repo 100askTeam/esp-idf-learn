@@ -14,17 +14,17 @@
 #include "esp_vfs_fat.h"
 #include "sdmmc_cmd.h"
 
-#include "fs_100ask_drivers.h"
+#include "fs_100ask_hal.h"
 
 
-#define MOUNT_POINT     CONFIG_SPI_SD_CARD_100ASK_MOUNT_POINT
+#define MOUNT_POINT     CONFIG_FS_100ASK_MOUNT_POINT
 
 
 static const char *TAG = "main";
 
 void app_main(void)
 {
-    fs_100ask_drivers_init();
+    fs_100ask_hal_init();
     
     // Use POSIX and C standard library functions to work with files.
 
@@ -77,5 +77,5 @@ void app_main(void)
     }
     ESP_LOGI(TAG, "Read from file: '%s'", line);
 
-    fs_100ask_drivers_release();
+    fs_100ask_hal_deinit();
 }

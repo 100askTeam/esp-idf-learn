@@ -1322,23 +1322,67 @@ CONFIG_WPA_MBEDTLS_CRYPTO=y
 #
 # File system Pin Assignments
 #
-CONFIG_USE_100ASK_SD_SPI=y
+# CONFIG_USE_100ASK_EXTERNAL_SDCARD_SPI is not set
+CONFIG_USE_100ASK_INTERNAL_FLASH=y
+CONFIG_FS_100ASK_MOUNT_POINT="/disk"
 CONFIG_LV_USE_100ASK_FS_FATFS=y
-
-#
-# SPI SD card setting
-#
-CONFIG_SPI_SD_CARD_100ASK_MOUNT_POINT="/sdcard"
-CONFIG_SPI_SD_CARD_100ASK_PIN_MOSI=17
-CONFIG_SPI_SD_CARD_100ASK_PIN_MISO=18
-CONFIG_SPI_SD_CARD_100ASK_PIN_CLK=16
-CONFIG_SPI_SD_CARD_100ASK_PIN_CS=15
-CONFIG_SPI_SD_CARD_100ASK_MAX_TRANSFER_SIZE=4000
-# end of SPI SD card setting
 # end of File system Pin Assignments
 
 CONFIG_USE_100ASK_FS_DRIVERS=y
 # end of 100ASK File system drivers setting
+
+#
+# LV_LIB_100ASK configuration
+#
+
+#
+# Pinyin input method
+#
+# CONFIG_LV_USE_100ASK_PINYIN_IME is not set
+# end of Pinyin input method
+
+#
+# Page manager
+#
+# CONFIG_LV_USE_100ASK_PAGE_MANAGER is not set
+# end of Page manager
+
+#
+# lv_lib_100ask sketchpad
+#
+# CONFIG_LV_USE_100ASK_SKETCHPAD is not set
+# end of lv_lib_100ask sketchpad
+
+#
+# Calculator
+#
+# CONFIG_LV_USE_100ASK_CALC is not set
+# end of Calculator
+
+#
+# Memory game
+#
+# CONFIG_LV_USE_100ASK_MEMORY_GAME is not set
+# end of Memory game
+
+#
+# Game 2048
+#
+# CONFIG_LV_USE_100ASK_2048 is not set
+# end of Game 2048
+
+#
+# File explorer
+#
+# CONFIG_LV_USE_100ASK_FILE_EXPLORER is not set
+# end of File explorer
+
+#
+# NES Simulator
+#
+# CONFIG_LV_USE_100ASK_NES is not set
+# end of NES Simulator
+# end of LV_LIB_100ASK configuration
 
 #
 # LVGL configuration
