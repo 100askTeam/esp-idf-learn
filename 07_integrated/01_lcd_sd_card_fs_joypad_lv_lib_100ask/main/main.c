@@ -30,7 +30,7 @@
 #endif
 
 /* 100ask specific */
-#include "tft_lcd_100ask_hal.h"
+#include "display_100ask_hal.h"
 #include "fc_joypad_100ask_drivers.h"
 #include "lv_port_fs_fatfs.h"
 #include "lv_lib_100ask.h"
@@ -41,7 +41,8 @@
 #define LV_TICK_PERIOD_MS 1
 
 //#define LV_DISP_BUF_SIZE  (CONFIG_SPI_TFT_LCD_100ASK_DISP_WIDTH * CONFIG_SPI_TFT_LCD_100ASK_DISP_HEIGHT)
-#define LV_DISP_BUF_SIZE  (CONFIG_SPI_TFT_LCD_100ASK_DISP_WIDTH * 20)
+#define LV_DISP_BUF_SIZE  (CONFIG_DISPLAY_SCREEN_100ASK_WIDTH * 20)
+
 /**********************
  *  STATIC PROTOTYPES
  **********************/
@@ -82,7 +83,8 @@ static void guiTask(void *pvParameter)
     lv_init();
  
     /* esp-100ask-components initialize */
-    tft_lcd_100ask_hal_init();
+    /* Initialize display */
+    display_100ask_hal_init();
     
     fc_joypad_100ask_init();
 
@@ -119,7 +121,7 @@ static void guiTask(void *pvParameter)
  
     lv_disp_drv_t disp_drv;
     lv_disp_drv_init(&disp_drv);
-    disp_drv.flush_cb = tft_lcd_100ask_hal_display_flush;
+    disp_drv.flush_cb = display_100ask_hal_lvgl_flush;
  
     /* When using a monochrome display we need to register the callbacks:
      * - rounder_cb
@@ -130,8 +132,8 @@ static void guiTask(void *pvParameter)
 #endif
  
     disp_drv.draw_buf = &disp_buf;
-    disp_drv.hor_res = CONFIG_SPI_TFT_LCD_100ASK_DISP_WIDTH;
-    disp_drv.ver_res = CONFIG_SPI_TFT_LCD_100ASK_DISP_HEIGHT;
+    disp_drv.hor_res = CONFIG_DISPLAY_SCREEN_100ASK_WIDTH;
+    disp_drv.ver_res = CONFIG_DISPLAY_SCREEN_100ASK_HEIGHT;
     lv_disp_drv_register(&disp_drv);
  
     /* Register an input device when enabled on the menuconfig */
