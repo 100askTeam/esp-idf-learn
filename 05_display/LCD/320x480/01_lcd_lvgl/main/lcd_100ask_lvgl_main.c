@@ -26,7 +26,7 @@
 #include "lv_demos.h"
  
 /* lcd 100ask drivers specific */
-#include "tft_lcd_100ask_hal.h"
+#include "display_100ask_hal.h"
  
 /*********************
  *      DEFINES
@@ -34,7 +34,7 @@
 #define LV_TICK_PERIOD_MS 1
 
 //#define LV_DISP_BUF_SIZE  (CONFIG_SPI_TFT_LCD_100ASK_DISP_WIDTH * CONFIG_SPI_TFT_LCD_100ASK_DISP_HEIGHT)
-#define LV_DISP_BUF_SIZE  (CONFIG_SPI_TFT_LCD_100ASK_DISP_WIDTH * 20)
+#define LV_DISP_BUF_SIZE  (CONFIG_DISPLAY_SCREEN_100ASK_WIDTH * 20)
 
 /**********************
  *  STATIC PROTOTYPES
@@ -74,7 +74,7 @@ static void guiTask(void *pvParameter)
     lv_init();
  
     /* Initialize display */
-    tft_lcd_100ask_hal_init();
+    display_100ask_hal_init();
 
     lv_color_t *buf1 = heap_caps_malloc(LV_DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
     if(buf1 == NULL)
@@ -104,7 +104,7 @@ static void guiTask(void *pvParameter)
  
     lv_disp_drv_t disp_drv;
     lv_disp_drv_init(&disp_drv);
-    disp_drv.flush_cb = tft_lcd_100ask_hal_display_flush;
+    disp_drv.flush_cb = display_100ask_hal_lvgl_flush;
  
     /* When using a monochrome display we need to register the callbacks:
      * - rounder_cb
@@ -115,8 +115,8 @@ static void guiTask(void *pvParameter)
 #endif
 
     disp_drv.draw_buf = &disp_buf;
-    disp_drv.hor_res = CONFIG_SPI_TFT_LCD_100ASK_DISP_WIDTH;
-    disp_drv.ver_res = CONFIG_SPI_TFT_LCD_100ASK_DISP_HEIGHT;
+    disp_drv.hor_res = CONFIG_DISPLAY_SCREEN_100ASK_WIDTH;
+    disp_drv.ver_res = CONFIG_DISPLAY_SCREEN_100ASK_HEIGHT;
     lv_disp_drv_register(&disp_drv);
  
     /* Register an input device when enabled on the menuconfig */
