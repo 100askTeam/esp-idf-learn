@@ -33,8 +33,8 @@
  *********************/
 #define LV_TICK_PERIOD_MS 1
 
-//#define LV_DISP_BUF_SIZE  (CONFIG_SPI_TFT_LCD_100ASK_DISP_WIDTH * CONFIG_SPI_TFT_LCD_100ASK_DISP_HEIGHT)
-#define LV_DISP_BUF_SIZE  (CONFIG_DISPLAY_SCREEN_100ASK_WIDTH * 20)
+#define LV_DISP_BUF_SIZE  (CONFIG_DISPLAY_SCREEN_100ASK_WIDTH * CONFIG_DISPLAY_SCREEN_100ASK_HEIGHT)
+//#define LV_DISP_BUF_SIZE  (CONFIG_DISPLAY_SCREEN_100ASK_HEIGHT * 80)
 
 /**********************
  *  STATIC PROTOTYPES
@@ -115,8 +115,13 @@ static void guiTask(void *pvParameter)
 #endif
 
     disp_drv.draw_buf = &disp_buf;
+#if ((CONFIG_DISPLAY_SCREEN_100ASK_ROTATION == 0) || (CONFIG_DISPLAY_SCREEN_100ASK_ROTATION == 180))
     disp_drv.hor_res = CONFIG_DISPLAY_SCREEN_100ASK_WIDTH;
     disp_drv.ver_res = CONFIG_DISPLAY_SCREEN_100ASK_HEIGHT;
+#elif ((CONFIG_DISPLAY_SCREEN_100ASK_ROTATION == 90) || (CONFIG_DISPLAY_SCREEN_100ASK_ROTATION == 270))
+    disp_drv.hor_res = CONFIG_DISPLAY_SCREEN_100ASK_HEIGHT;
+    disp_drv.ver_res = CONFIG_DISPLAY_SCREEN_100ASK_WIDTH;
+#endif
     lv_disp_drv_register(&disp_drv);
  
     /* Register an input device when enabled on the menuconfig */
@@ -169,8 +174,9 @@ static void create_demo_application(void)
     lv_label_set_text_fmt( label, "Hello DShanMCU-Mio!\nLVGL V%d.%d.%d", lv_version_major(), lv_version_minor(), lv_version_patch());
     lv_obj_align( label, LV_ALIGN_CENTER, 0, 0 );
 #else
-    lv_demo_widgets();
+    //lv_demo_widgets();
     //lv_demo_benchmark();
+    lv_demo_music();
 #endif
 }
  
